@@ -38,79 +38,70 @@ function weierstrass(x, y) {
   return sum;
 }
 
-class Graphs extends React.Component {
-  render() {
-    const { functionName } = this.props;
-    
-    const x = [...Array(100).keys()].map(x => (x / 10) - 5);
-    const y = [...Array(100).keys()].map(y => (y / 10) - 5);
-    let z;
+function Graphs({ functionName, is3D }) {
+  const x = [...Array(100).keys()].map(x => (x / 10) - 5);
+  const y = [...Array(100).keys()].map(y => (y / 10) - 5);
+  let z;
 
-    if (functionName === "Ackley") {
+  switch (functionName) {
+    case "Ackley":
       z = x.map(xi => y.map(yi => ackley(xi, yi)));
-    } else if (functionName === "Rosenbrock") {
+      break;
+    case "Rosenbrock":
       z = x.map(xi => y.map(yi => rosenbrock(xi, yi)));
-    } else if (functionName === "Salomon") {
+      break;
+    case "Salomon":
       z = x.map(xi => y.map(yi => salomon(xi, yi)));
-    } else if (functionName === "Weierstrass") {
+      break;
+    case "Weierstrass":
       z = x.map(xi => y.map(yi => weierstrass(xi, yi)));
-    } else {
+      break;
+    default:
       // Default to Ackley if no valid function name is provided
       z = x.map(xi => y.map(yi => ackley(xi, yi)));
-    }
-
-    return (
-      <Plot
-        data={[
-          {
-            type: "surface",
-            z: z,
-            colorscale: "Viridis"
-          }
-        ]}
-        layout={{
-          width: 800,
-          height: 600,
-          margin: {
-            l: 50,
-            r: 50,
-            b: 80,
-            t: 90,
-            pad: 4
-          },
-          title: `${functionName} Function`,
-          scene: {
-            xaxis: {
-              title: "X",
-              titlefont: {
-                family: "Courier New, monospace",
-                size: 12,
-                color: "#444444"
-              }
-            },
-            yaxis: {
-              title: "Y",
-              titlefont: {
-                family: "Courier New, monospace",
-                size: 12,
-                color: "#444444"
-              }
-            },
-            zaxis: {
-              title: `${functionName}(x, y)`,
-              titlefont: {
-                family: "Courier New, monospace",
-                size: 12,
-                color: "#444444"
-              }
-            }
-          }
-        }}
-      />
-    );
   }
+
+  const plotData = is3D ? [
+    {
+      type: "surface",
+      z: z,
+      colorscale: "Viridis"
+    }
+  ] : [
+    {
+      x: x,
+      y: y,
+      z: z,
+      type: 'contour'
+    }
+  ];
+
+  const layout = {
+    width: 800,
+    height: 600,
+    margin: {
+      l: 50,
+      r: 50,
+      b: 80,
+      t: 90,
+      pad: 4
+    },
+    title: `${functionName} Function`,
+  };
+
+  if (is3D) {
+    layout.scene = {
+      xaxis: { title: "X" },
+      yaxis: { title: "Y" },
+      zaxis: { title: `${functionName}(x, y)` }
+    };
+  } else {
+    layout.xaxis = { title: "X" };
+    layout.yaxis = { title: "Y" };
+  }
+
+  return <Plot data={plotData} layout={layout} />;
 }
 
 export default Graphs;
-
 

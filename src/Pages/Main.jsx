@@ -22,10 +22,17 @@ function Main() {
         value={selectedFunction}
         onChange={handleChange}
         options={options}
+        className='w-1/3'
       />
+      
       <div>
-        <Graphs functionName={selectedFunction.value} plotType="3d" />
+        <Graphs functionName={selectedFunction.value} is3D={true} />
       </div>
+
+      <div>
+        <Graphs functionName={selectedFunction.value} is3D={false} />
+      </div>
+
     </div>
   );
 }
