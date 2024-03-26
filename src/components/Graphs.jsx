@@ -93,7 +93,6 @@ function Graphs({ functionName, is3D }) {
     layout.scene = {
       xaxis: { title: "X" },
       yaxis: { title: "Y" },
-      zaxis: { title: `${functionName}(x, y)` }
     };
   } else {
     layout.xaxis = { title: "X" };
