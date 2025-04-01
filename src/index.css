@@ -22,9 +22,18 @@ code {
   color: black;
   font-size: 27px;
   font-family: 'Cascadia Mono SemiBold';
+  margin-left: 10px;
 }
 
 .navbar-content {
   display: flex;
   align-items: center;
+  margin-left: 10px;
+}
+
+.text1{
+  color: black;
+  font-size: 20px;
+  font-family: 'Cascadia Mono SemiBold';
+  margin-left: 10px;
 }

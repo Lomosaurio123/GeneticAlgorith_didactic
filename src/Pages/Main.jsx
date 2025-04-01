@@ -29,7 +29,7 @@ function Main() {
           className='w-1/6'
         />
       </div>
-      
+      <span className="text1">Trazado de contorno 2D</span>
       <div style={{ display: 'flex' }}>
         <div>
           <Graphs functionName={selectedFunction.value} is3D={false} />

@@ -2,18 +2,20 @@ import React from "react";
 import Plot from "react-plotly.js";
 
 function ackley(x, y) {
-  const a = 20;
-  const b = 0.2;
+  const a = 10;
+  const b = 0.5;
   const c = 2 * Math.PI;
   
   const term1 = -a * Math.exp(-b * Math.sqrt((x**2 + y**2) / 2));
   const term2 = -Math.exp((Math.cos(c * x) + Math.cos(c * y)) / 2);
-  
-  return term1 + term2 + a + Math.exp(1);
+  const value = term1 + term2 + a + Math.exp(1);
+
+  return value;
 }
 
 function rosenbrock(x, y) {
-  return (1 - x) ** 2 + 100 * (y - x ** 2) ** 2;
+  const value = (1 - x) ** 2 + 100 * (y - x ** 2) ** 2;
+  return value;
 }
 
 function salomon(x, y) {
@@ -21,8 +23,9 @@ function salomon(x, y) {
   const sqrtSquaredSum = Math.sqrt(squaredSum);
   const term1 = -Math.cos(2 * Math.PI * sqrtSquaredSum);
   const term2 = 0.1 * sqrtSquaredSum;
-  
-  return term1 + term2 + 0.1;
+  const value = term1 + term2 + 0.1;
+
+  return value;
 }
 
 function weierstrass(x, y) {
@@ -35,7 +38,8 @@ function weierstrass(x, y) {
     sum += Math.pow(a, k) * Math.cos(Math.pow(b, k) * Math.PI * x) * Math.cos(Math.pow(b, k) * Math.PI * y);
   }
   
-  return sum;
+  const value = sum;
+  return value;
 }
 
 function Graphs({ functionName, is3D }) {
@@ -61,40 +65,49 @@ function Graphs({ functionName, is3D }) {
       z = x.map(xi => y.map(yi => ackley(xi, yi)));
   }
 
+  // Obtener el valor mínimo y máximo de z
+  const flatZ = z.flat();
+  const minValue = Math.min(...flatZ);
+  const maxValue = Math.max(...flatZ);
+
   const plotData = is3D ? [
     {
       type: "surface",
       z: z,
-      colorscale: "Viridis"
+      colorscale: "Viridis",
     }
   ] : [
     {
       x: x,
       y: y,
       z: z,
-      type: 'contour'
+      type: 'contour',
+      colorscale: "Viridis"
     }
   ];
 
   const layout = {
-    width: 800,
-    height: 600,
     margin: {
-      l: 50,
-      r: 50,
-      b: 80,
-      t: 90,
-      pad: 4
+      l: 60,
+      r: 0,
+      b: 50,
+      t: 50,
+      pad: 0
     },
-    title: `${functionName} Function`,
+    title: `(Min: ${minValue.toFixed(2)}, Max: ${maxValue.toFixed(2)})`,
   };
 
   if (is3D) {
     layout.scene = {
+      width: 700,
+      height: 700,
       xaxis: { title: "X" },
       yaxis: { title: "Y" },
     };
+    
   } else {
+    layout.width = 330;
+    layout.height = 300;
     layout.xaxis = { title: "X" };
     layout.yaxis = { title: "Y" };
   }
@@ -103,4 +116,3 @@ function Graphs({ functionName, is3D }) {
 }
 
 export default Graphs;
-
